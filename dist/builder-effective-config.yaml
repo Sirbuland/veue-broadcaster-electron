@@ -1,0 +1,48 @@
+directories:
+  output: dist
+  buildResources: build
+publish:
+  provider: s3
+  bucket: veue-production
+  path: /broadcaster-release
+  region: us-east-1
+  storageClass: STANDARD
+generateUpdatesFilesForAllChannels: true
+appId: com.hamptoncatlin.veue
+files:
+  - filter:
+      - '!bin'
+mac:
+  category: public.app-category.social-networking
+  darkModeSupport: false
+  entitlements: entitlements.mac.plist
+  entitlementsInherit: entitlements.mac.plist
+  hardenedRuntime: true
+  extendInfo:
+    NSMicrophoneUsageDescription: Please give us access to your microphone
+    NSCameraUsageDescription: Please give access to your webcam
+  extraResources:
+    - bin/mac/**
+win:
+  target: nsis
+  extraResources:
+    - bin/win/**
+nsis:
+  oneClick: false
+  perMachine: true
+dmg:
+  sign: false
+  iconSize: 160
+  contents:
+    - x: 180
+      'y': 170
+    - x: 480
+      'y': 170
+      type: link
+      path: /Applications
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Network;Chat
+electronVersion: 11.1.1
